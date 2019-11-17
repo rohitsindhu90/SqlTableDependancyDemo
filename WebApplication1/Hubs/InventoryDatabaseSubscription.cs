@@ -9,6 +9,7 @@ using TableDependency.SqlClient.Base.Enums;
 using TableDependency.SqlClient.Base.EventArgs;
 using TableDependency.SqlClient;
 using TableDependency.SqlClient.Base;
+using Microsoft.Extensions.Logging;
 
 namespace SignalRCore.Web.Hubs
 {
@@ -18,13 +19,16 @@ namespace SignalRCore.Web.Hubs
         //private readonly IInventoryRepository _repository;
         //private readonly IHubContext<Inventory> _hubContext;
         private SqlTableDependency<Employee> _tableDependency;
-
+        private readonly ILogger<InventoryDatabaseSubscription> _logger;
         //public InventoryDatabaseSubscription(IInventoryRepository repository, IHubContext<Inventory> hubContext)
         //{
         //    _repository = repository;
         //    _hubContext = hubContext;            
         //}
-
+        public InventoryDatabaseSubscription(ILogger<InventoryDatabaseSubscription> logger)
+        {
+            _logger = logger;
+        }
         public void Configure(string connectionString)
         {
             var mapper = new ModelToTableMapper<Employee>();
@@ -35,7 +39,7 @@ namespace SignalRCore.Web.Hubs
             _tableDependency.OnChanged += Changed;
             _tableDependency.OnError += TableDependency_OnError;
             _tableDependency.Start();
-
+            _logger.LogInformation("Waiting for receiving notifications...");
             Console.WriteLine("Waiting for receiving notifications...");
         }
 

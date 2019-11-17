@@ -42,13 +42,17 @@ namespace WebApplication1.Controllers
             //            {
             //                var Id = sqlDataReader.GetInt64(sqlDataReader.GetOrdinal("EmployeeId"));
             //                var name = sqlDataReader.GetString(sqlDataReader.GetOrdinal("FirstName"));
-                            
+
 
             //                lstCustomer.Add(new Employee { EmployeeId = Id, FirstName = name });
             //            }
             //        }
             //    }
             //}
+            if (true) {
+                throw new ArgumentOutOfRangeException("", "volume cannot be more than 100");
+
+            }
 
             return lstCustomer;
         }
